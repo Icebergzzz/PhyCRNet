@@ -6,6 +6,9 @@ import scipy.io
 import numpy as np
 import matplotlib.pyplot as plt
 
+from random_fields import GaussianRF
+import torch
+
 np.random.seed(66)
 
 def apply_laplacian(mat, dx = 1.0):
@@ -164,7 +167,15 @@ if __name__ == '__main__':
     dx = 1
     
     # intialize the chemical concentrations, random_incluence=0
-    A, B = get_initial_A_and_B(M, N)
+    #A, B = get_initial_A_and_B(M, N)
+    
+    device = torch.device('cuda')
+    GRF = GaussianRF(2, M, alpha=2, tau=5, device=device)
+    A, B = GRF.sample(2) # U and V have shape of [128, 128]
+
+    A = A.cpu().numpy()
+    B = B.cpu().numpy()
+    
     A_record = A.copy()[None,...]
     B_record = B.copy()[None,...]
     
