@@ -494,11 +494,11 @@ def post_process(output, true, axis_lim, uv_lim, num, fig_save_path):
     x = x[:-1]
     x_star, y_star = np.meshgrid(x, x)
     
-    u_star = true[num, 0, 1:-1, 1:-1]
-    u_pred = output[num, 0, 1:-1, 1:-1].detach().cpu().numpy()
+    u_star = true[num, 0, 2:-1, 2:-1]         #padded with the first two columns and the last column, so it should take [num, 0, 2: -1, 2: -1]
+    u_pred = output[num, 0, 2:-1, 2:-1].detach().cpu().numpy()
 
-    v_star = true[num, 1, 1:-1, 1:-1]
-    v_pred = output[num, 1, 1:-1, 1:-1].detach().cpu().numpy()
+    v_star = true[num, 1, 2:-1, 2:-1]
+    v_pred = output[num, 1, 2:-1, 2:-1].detach().cpu().numpy()
 
     fig, ax = plt.subplots(nrows=2, ncols=2, figsize=(7, 7))
     fig.subplots_adjust(hspace=0.3, wspace=0.3)
